@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Holes marka paleti — light */
+  --bg: #f4f1e8;
+  --bg-elev: #fbfaf5;
+  --fg: #10233a;
+  --fg-muted: #5b6b7c;
+  --accent: #1d5c3f;
+  --accent-soft: #9fd8cb;
+  --accent-2: #14395c;
+  --border: #e0dbcc;
+  --glow: rgba(157, 216, 203, 0.5);
+}
+
+.dark {
+  /* deep navy — dark */
+  --bg: #0a1929;
+  --bg-elev: #10233a;
+  --fg: #f4f1e8;
+  --fg-muted: #93a5b8;
+  --accent: #5cc8b8;
+  --accent-soft: #1d5c3f;
+  --accent-2: #9fd8cb;
+  --border: #1d3450;
+  --glow: rgba(92, 200, 184, 0.25);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-2: var(--accent-2);
+  --color-border-c: var(--border);
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+}
+
+html {
+  scrollbar-width: thin;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body), system-ui, sans-serif;
+  overflow-x: clip;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+/* Yumuşak kayan degrade metin */
+.text-gradient {
+  background: linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 60%, var(--accent) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-pan 6s linear infinite;
+}
+
+@keyframes gradient-pan {
+  to { background-position: 200% center; }
+}
+
+/* Sonsuz marquee bandı */
+.marquee {
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.marquee:hover { animation-play-state: paused; }
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Kart parlama süpürmesi */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.18) 50%, transparent 60%);
+  transform: translateX(-120%);
+  transition: transform 0.9s ease;
+  pointer-events: none;
+}
+.shine:hover::after {
+  transform: translateX(120%);
+}

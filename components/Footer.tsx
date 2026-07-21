@@ -1,51 +1,33 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Link from "next/link";
 import { useLang } from "@/lib/i18n";
-
-export function About() {
-  const { t } = useLang();
-
-  return (
-    <section id="about" className="mx-auto max-w-3xl px-4 py-20 text-center">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-      >
-        <h2 className="font-display font-bold text-3xl sm:text-5xl tracking-tight">
-          {t("about.title")}
-        </h2>
-        <p className="mt-5 text-fg-muted text-base sm:text-xl leading-relaxed">
-          {t("about.desc")}
-        </p>
-        <motion.a
-          href="mailto:yahyacanozdemir@gmail.com"
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          className="shine mt-8 inline-block rounded-2xl border border-border-c bg-bg-elev px-8 py-4 font-semibold text-accent text-sm sm:text-lg"
-        >
-          yahyacanozdemir@gmail.com
-        </motion.a>
-      </motion.div>
-    </section>
-  );
-}
 
 export default function Footer() {
   const { t } = useLang();
 
   return (
-    <footer className="border-t border-border-c py-8">
-      <div className="mx-auto max-w-6xl px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-fg-muted">
-        <span>
-          © {new Date().getFullYear()}{" "}
-          <span className="font-display font-bold">
-            <span className="text-gradient">Yoz</span>apps
-          </span>
-        </span>
-        <span>{t("footer.made")}</span>
+    <footer className="border-t border-border-c py-10">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
+          <div className="text-center sm:text-left">
+            <Link href="/" className="font-display text-lg font-bold">
+              <span className="text-gradient">Yoz</span>apps
+            </Link>
+            <p className="mt-1 text-sm text-fg-muted">{t("slogan")}</p>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-fg-muted">
+            <Link href="/apps/" className="hover:text-fg transition-colors">{t("nav.apps")}</Link>
+            <Link href="/projects/" className="hover:text-fg transition-colors">{t("nav.projects")}</Link>
+            <Link href="/about/" className="hover:text-fg transition-colors">{t("nav.about")}</Link>
+            <Link href="/contact/" className="hover:text-fg transition-colors">{t("nav.contact")}</Link>
+          </div>
+        </div>
+
+        <div className="mt-8 pt-6 border-t border-border-c text-center text-xs text-fg-muted">
+          © {new Date().getFullYear()} Yozapps
+        </div>
       </div>
     </footer>
   );

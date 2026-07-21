@@ -74,7 +74,7 @@ function MysteryCard({ index }: { index: number }) {
             </span>
           </motion.div>
           <span className="rounded-full border border-accent/40 bg-accent/10 px-4 py-1.5 text-accent text-xs font-bold tracking-widest uppercase">
-            {t("soon.card")}
+            {t("teaser.soon.card")}
           </span>
         </div>
       </motion.div>
@@ -95,9 +95,9 @@ export default function ComingSoon() {
         className="text-center mb-14"
       >
         <h2 className="font-display font-bold text-4xl sm:text-6xl tracking-tight">
-          {t("soon.title")}
+          {t("teaser.soon.title")}
         </h2>
-        <p className="mt-4 text-fg-muted text-lg sm:text-xl">{t("soon.desc")}</p>
+        <p className="mt-4 text-fg-muted text-lg sm:text-xl">{t("teaser.soon.desc")}</p>
       </motion.div>
 
       <div className="grid sm:grid-cols-2 gap-8 sm:gap-12">

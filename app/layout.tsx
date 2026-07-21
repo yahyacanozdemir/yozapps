@@ -16,9 +16,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Yozapps — Yahya Özdemir Apps",
+  title: "Yozapps — Mobil Uygulama Stüdyosu",
   description:
-    "Yozapps — Yahya Can Özdemir tarafından geliştirilen mobil uygulamalar. Holes ve Safe Oto App Store'da.",
+    "Yozapps: mobil odaklı bağımsız bir uygulama stüdyosu. Yenilikçi, Özgün, Zarif uygulamalar — Holes ve Safe Oto.",
   icons: { icon: "/favicon.svg" },
 };
 

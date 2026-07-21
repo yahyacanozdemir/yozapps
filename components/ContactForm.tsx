@@ -48,13 +48,6 @@ export default function ContactForm() {
 
   return (
     <section id="contact" className="mx-auto max-w-2xl px-4 pb-28">
-      <motion.div {...fieldAnim(0)} className="text-center mb-10">
-        <h2 className="font-display font-bold text-3xl sm:text-5xl tracking-tight">
-          {t("form.title")}
-        </h2>
-        <p className="mt-4 text-fg-muted text-base sm:text-lg">{t("form.desc")}</p>
-      </motion.div>
-
       <AnimatePresence mode="wait">
         {status === "sent" ? (
           <motion.div

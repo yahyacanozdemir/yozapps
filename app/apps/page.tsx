@@ -1,17 +1,19 @@
+import type { Metadata } from "next";
 import Nav from "@/components/Nav";
-import HomeHero from "@/components/HomeHero";
 import AppTeasers from "@/components/AppTeasers";
-import ValuesBand from "@/components/ValuesBand";
 import ComingSoon from "@/components/ComingSoon";
 import Footer from "@/components/Footer";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Uygulamalar — Yozapps",
+  description: "Yozapps uygulamaları: Holes ve Safe Oto.",
+};
+
+export default function AppsPage() {
   return (
-    <main>
+    <main className="pt-16">
       <Nav />
-      <HomeHero />
       <AppTeasers />
-      <ValuesBand />
       <ComingSoon />
       <Footer />
     </main>

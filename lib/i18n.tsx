@@ -17,8 +17,9 @@ const dict = {
     "hero.cta": "Uygulamaları Keşfet",
     "hero.scroll": "Kaydır",
 
+    "gallery.title": "Mağazadan kareler",
+
     "holes.badge": "İlk Uygulama",
-    "holes.name": "HOLES",
     "holes.tagline": "Tilt · Balance · Escape",
     "holes.headline1": "Eğ.",
     "holes.headline2": "Dengede tut.",
@@ -30,34 +31,72 @@ const dict = {
     "holes.f1.title": "Saniyeler içinde öğren",
     "holes.f1.desc":
       "Herkesin saniyeler içinde kapabileceği eğ-ve-oyna kontroller. Tilt, joystick, gyro ve ekran tuşları dahil birden çok kontrol stili.",
-    "holes.f2.title": "Ustalık isteyen seviyeler",
+    "holes.f2.title": "500+ el yapımı seviye",
     "holes.f2.desc":
-      "İlerledikçe zorlaşan onlarca el yapımı seviye. Hızlı bir meydan okuma ya da sakinleşmek için birebir.",
-    "holes.f3.title": "Yüzlerce top stili",
+      "İlerledikçe zorlaşan yüzlerce el yapımı seviye. Hızlı bir meydan okuma ya da sakinleşmek için birebir.",
+    "holes.f3.title": "150+ top stili",
     "holes.f3.desc":
       "Klasikler, degradeler, mücevherler, emoji, bayraklar, spor, uzay, rünler ve dahası. Kazandıkça elmas topla, yeni stillerin kilidini aç.",
     "holes.f4.title": "Her yerde, çevrimdışı",
     "holes.f4.desc":
       "Tek el modu ile her yerde rahat oyna. İnternet gerekmez; rahatlatıcı ses tasarımı ve tatmin edici dokunsal his her an seninle.",
-    "holes.gallery.title": "Oyundan kareler",
     "holes.stat1": "Seviye",
     "holes.stat2": "Top Stili",
     "holes.stat3": "Kontrol Stili",
     "holes.stat4": "Çevrimdışı",
     "holes.status": "App Store'da çok yakında",
-    "holes.copyright": "© 2026 YOZ Apps",
+
+    "safeoto.badge": "App Store'da Yayında",
+    "safeoto.tagline": "Güvenli · Hızlı · Kolay",
+    "safeoto.headline1": "İncele.",
+    "safeoto.headline2": "Karşılaştır.",
+    "safeoto.headline3": "Güvenle al.",
+    "safeoto.intro":
+      "Safe Oto, ikinci el otomobil satışı yapan kurumsal ve güvenilir firmaların ilanlarını tek bir platformda toplayarak araç satın alma sürecini daha güvenli, hızlı ve kolay hale getiren yeni nesil bir dijital platform.",
+    "safeoto.desc":
+      "Farklı kaynaklardaki araç ilanlarını incele, karşılaştır; detaylı araç bilgilerine ve firma üzerinden ekspertiz raporlarına tek noktadan ulaş.",
+    "safeoto.f1.title": "Tüm ilanlar tek platformda",
+    "safeoto.f1.desc":
+      "Kurumsal ve güvenilir firmaların ikinci el ilanları tek bir akışta. Aradığın aracı bulmak için onlarca site gezmene gerek yok.",
+    "safeoto.f2.title": "Marka marka, model model",
+    "safeoto.f2.desc":
+      "Kategoriler, popüler markalar ve tüm modeller parmaklarının ucunda. Bütçene ve zevkine göre hızlı keşif.",
+    "safeoto.f3.title": "Karşılaştır, ekspertize bak",
+    "safeoto.f3.desc":
+      "Farklı kaynaklardaki araçları yan yana karşılaştır, detaylı araç bilgileri ve ekspertiz raporlarıyla kararını güvenle ver.",
+    "safeoto.f4.title": "Favoriler ve fiyat takibi",
+    "safeoto.f4.desc":
+      "İlgini çeken araçları favorilere ekle, fiyat değişimlerini takip et, kaydedilmiş aramalarla güncel ilanları kaçırma.",
+    "safeoto.status": "App Store'da yayında",
+    "safeoto.download": "App Store'dan İndir",
+
+    "app.copyright": "© 2026 YOZ Apps",
 
     "soon.title": "Sırada ne var?",
-    "soon.desc":
-      "Yeni uygulamalar mutfakta. İpucu yok, sürpriz bol.",
+    "soon.desc": "Yeni uygulamalar mutfakta. İpucu yok, sürpriz bol.",
     "soon.card": "Çok Yakında",
-    "soon.hint": "Sürpriz",
 
     "about.title": "Hakkında",
     "about.desc":
-      "yozapps, Yahya Özdemir tarafından geliştirilen uygulamaların çatısı. Az ama öz: sade tasarım, akıcı deneyim, keyifli detaylar.",
+      "Yozapps, Yahya Can Özdemir tarafından geliştirilen uygulamalar için çatı. Öz: sade tasarım, akıcı deneyim, keyifli detaylar.",
     "contact.title": "İletişim",
-    "footer.made": "İstanbul'da sevgiyle geliştirildi.",
+
+    "social.title": "Beni takip et",
+    "social.appstore": "App Store",
+    "social.linkedin": "LinkedIn",
+    "social.github": "GitHub",
+
+    "form.title": "Bana yaz",
+    "form.desc": "Soru, fikir ya da sadece selam — mesajın doğrudan mailime düşer.",
+    "form.name": "Adın",
+    "form.email": "E-posta adresin",
+    "form.message": "Mesajın",
+    "form.send": "Gönder",
+    "form.sending": "Gönderiliyor…",
+    "form.sent": "Mesajın ulaştı, teşekkürler!",
+    "form.error": "Bir şeyler ters gitti — tekrar dener misin?",
+
+    "footer.made": "eğlenceli, yalın, kullanışlı uygulamalar.",
   },
   en: {
     "nav.apps": "Apps",
@@ -71,8 +110,9 @@ const dict = {
     "hero.cta": "Explore the Apps",
     "hero.scroll": "Scroll",
 
+    "gallery.title": "Scenes from the store",
+
     "holes.badge": "First App",
-    "holes.name": "HOLES",
     "holes.tagline": "Tilt · Balance · Escape",
     "holes.headline1": "Tilt.",
     "holes.headline2": "Balance.",
@@ -84,33 +124,73 @@ const dict = {
     "holes.f1.title": "Learn in seconds",
     "holes.f1.desc":
       "Simple tilt-to-play controls anyone can pick up in seconds. Multiple control styles: tilt, joystick, gyro and on-screen buttons.",
-    "holes.f2.title": "Levels that demand mastery",
+    "holes.f2.title": "500+ handcrafted levels",
     "holes.f2.desc":
-      "Dozens of handcrafted levels that get trickier as you go. Perfect for a quick challenge or a calm way to unwind.",
-    "holes.f3.title": "Hundreds of ball skins",
+      "Hundreds of handcrafted levels that get trickier as you go. Perfect for a quick challenge or a calm way to unwind.",
+    "holes.f3.title": "150+ ball skins",
     "holes.f3.desc":
       "Classics, gradients, gems, emoji, flags, sports, space, runes and more. Earn diamonds as you win and unlock new styles.",
     "holes.f4.title": "Anywhere, offline",
     "holes.f4.desc":
       "One-hand mode for comfortable play anywhere. No internet required — with relaxing sound design and a satisfying, tactile feel.",
-    "holes.gallery.title": "Scenes from the game",
     "holes.stat1": "Levels",
     "holes.stat2": "Ball Skins",
     "holes.stat3": "Control Styles",
     "holes.stat4": "Offline",
     "holes.status": "Coming soon to the App Store",
-    "holes.copyright": "© 2026 YOZ Apps",
+
+    "safeoto.badge": "Live on the App Store",
+    "safeoto.tagline": "Safe · Fast · Easy",
+    "safeoto.headline1": "Browse.",
+    "safeoto.headline2": "Compare.",
+    "safeoto.headline3": "Buy with confidence.",
+    "safeoto.intro":
+      "Safe Oto is a new-generation digital platform that gathers listings from trusted, corporate second-hand car dealers in one place — making car buying safer, faster and easier.",
+    "safeoto.desc":
+      "Browse and compare listings from different sources, and reach detailed car info and dealer expertise reports from a single point.",
+    "safeoto.f1.title": "Every listing, one platform",
+    "safeoto.f1.desc":
+      "Second-hand listings from trusted corporate dealers in a single feed. No more hopping between dozens of sites to find your car.",
+    "safeoto.f2.title": "Brand by brand, model by model",
+    "safeoto.f2.desc":
+      "Categories, popular brands and every model at your fingertips. Discover fast, by budget and taste.",
+    "safeoto.f3.title": "Compare with expert reports",
+    "safeoto.f3.desc":
+      "Compare cars from different sources side by side, and decide with confidence using detailed car info and expertise reports.",
+    "safeoto.f4.title": "Favorites & price tracking",
+    "safeoto.f4.desc":
+      "Add cars to favorites, track price changes, and never miss fresh listings with saved searches.",
+    "safeoto.status": "Now on the App Store",
+    "safeoto.download": "Download on the App Store",
+
+    "app.copyright": "© 2026 YOZ Apps",
 
     "soon.title": "What's next?",
     "soon.desc": "New apps are in the kitchen. No hints — plenty of surprise.",
     "soon.card": "Coming Soon",
-    "soon.hint": "Surprise",
 
     "about.title": "About",
     "about.desc":
-      "yozapps is the home of apps built by Yahya Ozdemir. Less but better: minimal design, fluid experience, delightful details.",
+      "Yozapps is the home of apps built by Yahya Can Özdemir. In short: minimal design, fluid experience, delightful details.",
     "contact.title": "Contact",
-    "footer.made": "Built with love in Istanbul.",
+
+    "social.title": "Follow me",
+    "social.appstore": "App Store",
+    "social.linkedin": "LinkedIn",
+    "social.github": "GitHub",
+
+    "form.title": "Write to me",
+    "form.desc":
+      "A question, an idea or just a hello — your message lands straight in my inbox.",
+    "form.name": "Your name",
+    "form.email": "Your email",
+    "form.message": "Your message",
+    "form.send": "Send",
+    "form.sending": "Sending…",
+    "form.sent": "Message received — thank you!",
+    "form.error": "Something went wrong — mind trying again?",
+
+    "footer.made": "fun, simple, useful apps.",
   },
 } as const;
 

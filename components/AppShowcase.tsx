@@ -5,14 +5,23 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
-import { useLang } from "@/lib/i18n";
+import { useLang, type DictKey } from "@/lib/i18n";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const KEYWORDS = [
-  "balance", "tilt", "escape", "arcade", "reflex", "physics",
-  "relax", "one hand", "gyro", "casual", "skill", "levels",
-];
+export interface ShowcaseConfig {
+  id: string;
+  prefix: "holes" | "safeoto";
+  letters: string; // pinli girişte harf harf açılan isim
+  icon: string;
+  introPhone: string;
+  featureImages: [string, string, string, string];
+  gallery: string[];
+  keywords: string[];
+  stats?: { v: number; s: string; labelKey: DictKey }[];
+  storeUrl?: string; // varsa indirme butonu, yoksa "yakında" rozeti
+  htmlId?: string;
+}
 
 // Sayaç: görünür olunca hedefe sayar
 function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
@@ -40,16 +49,20 @@ function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   return <span ref={ref}>0{suffix}</span>;
 }
 
-export default function HolesShowcase() {
+export default function AppShowcase({ config }: { config: ShowcaseConfig }) {
   const { t } = useLang();
   const root = useRef<HTMLDivElement>(null);
+  const p = config.prefix;
 
   useEffect(() => {
+    const rootEl = root.current;
+    if (!rootEl) return;
+
     const ctx = gsap.context(() => {
-      // ---- 1) Pinlenen giriş: HOLES harfleri açılır, telefon uçarak gelir ----
+      // ---- 1) Pinlenen giriş: harfler açılır, telefon uçarak gelir ----
       const introTl = gsap.timeline({
         scrollTrigger: {
-          trigger: ".holes-intro",
+          trigger: ".app-intro",
           start: "top top",
           end: "+=180%",
           scrub: 1,
@@ -59,41 +72,41 @@ export default function HolesShowcase() {
 
       introTl
         .fromTo(
-          ".holes-letter",
+          ".app-letter",
           { yPercent: 120, opacity: 0, rotate: 8 },
           { yPercent: 0, opacity: 1, rotate: 0, stagger: 0.06, ease: "power3.out", duration: 0.5 }
         )
         .fromTo(
-          ".holes-title",
+          ".app-title",
           { letterSpacing: "0.02em" },
-          { letterSpacing: "0.18em", ease: "none", duration: 1 },
+          { letterSpacing: "0.14em", ease: "none", duration: 1 },
           0.4
         )
         .fromTo(
-          ".holes-tagline",
+          ".app-tagline",
           { opacity: 0, y: 30, filter: "blur(8px)" },
           { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5 },
           0.5
         )
         .fromTo(
-          ".holes-hero-phone",
+          ".app-hero-phone",
           { yPercent: 90, scale: 1.5, rotate: -10, opacity: 0 },
           { yPercent: 0, scale: 1, rotate: 6, opacity: 1, ease: "power2.out", duration: 1 },
           0.35
         )
         .to(
-          ".holes-title",
+          ".app-title",
           { scale: 0.82, opacity: 0.15, ease: "power1.in", duration: 0.6 },
           1.1
         )
         .to(
-          ".holes-hero-phone",
+          ".app-hero-phone",
           { yPercent: -18, scale: 1.06, rotate: 0, ease: "none", duration: 0.7 },
           1.05
         );
 
-      // ---- 2) Üç kelimelik manifesto: Eğ. Dengede tut. Kaç. ----
-      gsap.utils.toArray<HTMLElement>(".holes-word").forEach((el, i) => {
+      // ---- 2) Manifesto kelimeleri ----
+      gsap.utils.toArray<HTMLElement>(".app-word").forEach((el) => {
         gsap.fromTo(
           el,
           { opacity: 0.08, scale: 0.94, filter: "blur(6px)" },
@@ -112,7 +125,7 @@ export default function HolesShowcase() {
         );
       });
 
-      // ---- 3) Özellik satırları: telefonlar yanlardan süzülür ----
+      // ---- 3) Özellik satırları ----
       gsap.utils.toArray<HTMLElement>(".feature-row").forEach((row, i) => {
         const fromLeft = i % 2 === 0;
         const img = row.querySelector(".feature-img");
@@ -135,8 +148,8 @@ export default function HolesShowcase() {
         );
       });
 
-      // ---- 4) Yatay galeri: bölüm pinlenir, kartlar yatay akar ----
-      const track = document.querySelector<HTMLElement>(".gallery-track");
+      // ---- 4) Yatay galeri ----
+      const track = rootEl.querySelector<HTMLElement>(".gallery-track");
       if (track) {
         const scrollAmount = () => track.scrollWidth - window.innerWidth;
         gsap.to(track, {
@@ -161,7 +174,6 @@ export default function HolesShowcase() {
             scrub: true,
           },
         });
-        // Kartlar akarken hafif dalga: rotate/scale
         gsap.utils.toArray<HTMLElement>(".gallery-card").forEach((card, i) => {
           gsap.fromTo(
             card,
@@ -183,42 +195,40 @@ export default function HolesShowcase() {
     return () => ctx.revert();
   }, []);
 
-  const features = [
-    { img: "/holes/screen-2.png", title: t("holes.f1.title"), desc: t("holes.f1.desc") },
-    { img: "/holes/screen-3.png", title: t("holes.f2.title"), desc: t("holes.f2.desc") },
-    { img: "/holes/screen-4.png", title: t("holes.f3.title"), desc: t("holes.f3.desc") },
-    { img: "/holes/screen-5.png", title: t("holes.f4.title"), desc: t("holes.f4.desc") },
-  ];
+  const features = config.featureImages.map((img, i) => ({
+    img,
+    title: t(`${p}.f${i + 1}.title` as DictKey),
+    desc: t(`${p}.f${i + 1}.desc` as DictKey),
+  }));
 
   return (
-    <div ref={root} id="apps" className="relative">
+    <div ref={root} id={config.htmlId} className="relative">
       {/* ---- Pinlenen giriş ---- */}
-      <section className="holes-intro relative h-svh overflow-hidden flex flex-col items-center justify-center">
+      <section className="app-intro relative h-svh overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--glow),transparent_65%)]" />
 
         <span className="relative z-10 mb-4 rounded-full border border-border-c bg-bg-elev/70 backdrop-blur px-4 py-1.5 text-xs font-bold tracking-widest uppercase text-accent">
-          {t("holes.badge")}
+          {t(`${p}.badge` as DictKey)}
         </span>
 
-        <h2 className="holes-title relative z-10 font-display font-bold text-[clamp(3.5rem,14vw,11rem)] leading-none select-none">
-          {"HOLES".split("").map((ch, i) => (
-            <span key={i} className="holes-letter inline-block">
-              {ch}
+        <h2 className="app-title relative z-10 font-display font-bold text-[clamp(2.6rem,11vw,9rem)] leading-none select-none whitespace-nowrap">
+          {config.letters.split("").map((ch, i) => (
+            <span key={i} className="app-letter inline-block">
+              {ch === " " ? " " : ch}
             </span>
           ))}
         </h2>
 
-        <p className="holes-tagline relative z-10 mt-2 text-fg-muted tracking-[0.35em] uppercase text-sm sm:text-base">
-          {t("holes.tagline")}
+        <p className="app-tagline relative z-10 mt-2 text-fg-muted tracking-[0.35em] uppercase text-sm sm:text-base text-center">
+          {t(`${p}.tagline` as DictKey)}
         </p>
 
-        <div className="holes-hero-phone relative z-10 mt-8 w-[210px] sm:w-[250px]">
+        <div className="app-hero-phone relative z-10 mt-8 w-[210px] sm:w-[250px]">
           <Image
-            src="/holes/screen-1.png"
-            alt="Holes gameplay"
-            width={850}
-            height={1840}
-            priority
+            src={config.introPhone}
+            alt={config.letters}
+            width={760}
+            height={1650}
             className="rounded-[2rem] shadow-2xl shadow-black/40 ring-1 ring-border-c"
           />
         </div>
@@ -226,16 +236,16 @@ export default function HolesShowcase() {
 
       {/* ---- Manifesto ---- */}
       <section className="mx-auto max-w-4xl px-4 py-28 sm:py-40 text-center">
-        <div className="font-display font-bold leading-tight text-[clamp(2.4rem,7vw,5.5rem)]">
-          <p className="holes-word">{t("holes.headline1")}</p>
-          <p className="holes-word text-gradient">{t("holes.headline2")}</p>
-          <p className="holes-word">{t("holes.headline3")}</p>
+        <div className="font-display font-bold leading-tight text-[clamp(2.2rem,6.5vw,5rem)]">
+          <p className="app-word">{t(`${p}.headline1` as DictKey)}</p>
+          <p className="app-word text-gradient">{t(`${p}.headline2` as DictKey)}</p>
+          <p className="app-word">{t(`${p}.headline3` as DictKey)}</p>
         </div>
-        <p className="holes-word mt-10 text-fg-muted text-lg sm:text-2xl leading-relaxed max-w-2xl mx-auto">
-          {t("holes.intro")}
+        <p className="app-word mt-10 text-fg-muted text-lg sm:text-2xl leading-relaxed max-w-2xl mx-auto">
+          {t(`${p}.intro` as DictKey)}
         </p>
-        <p className="holes-word mt-5 text-fg-muted/80 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-          {t("holes.desc")}
+        <p className="app-word mt-5 text-fg-muted/80 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+          {t(`${p}.desc` as DictKey)}
         </p>
       </section>
 
@@ -248,12 +258,12 @@ export default function HolesShowcase() {
               i % 2 === 1 ? "md:[&>*:first-child]:order-2" : ""
             }`}
           >
-            <div className="feature-img mx-auto w-[220px] sm:w-[280px] [perspective:1000px]">
+            <div className="feature-img mx-auto w-[220px] sm:w-[280px]">
               <Image
                 src={f.img}
                 alt={f.title}
-                width={850}
-                height={1840}
+                width={760}
+                height={1650}
                 className="rounded-[2rem] shadow-2xl shadow-black/30 ring-1 ring-border-c"
               />
             </div>
@@ -273,26 +283,26 @@ export default function HolesShowcase() {
       <section className="gallery-pin relative h-svh overflow-hidden">
         <div className="absolute top-10 sm:top-14 inset-x-0 text-center z-10 px-4">
           <h3 className="font-display font-bold text-3xl sm:text-5xl">
-            {t("holes.gallery.title")}
+            {t("gallery.title")}
           </h3>
           <div className="mx-auto mt-5 h-1 w-48 rounded-full bg-border-c overflow-hidden">
             <div className="gallery-progress h-full w-full origin-left scale-x-0 bg-accent" />
           </div>
         </div>
 
-        <div className="gallery-track absolute top-1/2 -translate-y-1/2 flex gap-8 sm:gap-12 pl-[12vw] pr-[30vw] pt-16 will-change-transform">
-          {[1, 2, 3, 4, 5, 6].map((n) => (
+        <div className="gallery-track absolute top-[54%] -translate-y-1/2 flex gap-8 sm:gap-12 pl-[12vw] pr-[30vw] pt-16 will-change-transform">
+          {config.gallery.map((src, i) => (
             <motion.div
-              key={n}
+              key={src}
               whileHover={{ scale: 1.04, rotate: 0, y: -10 }}
               transition={{ type: "spring", stiffness: 250, damping: 18 }}
               className="gallery-card shrink-0 w-[clamp(170px,30vh,290px)]"
             >
               <Image
-                src={`/holes/screen-${n}.png`}
-                alt={`Holes screenshot ${n}`}
-                width={850}
-                height={1840}
+                src={src}
+                alt={`${config.letters} screenshot ${i + 1}`}
+                width={760}
+                height={1650}
                 className="rounded-[2rem] shadow-2xl shadow-black/30 ring-1 ring-border-c"
               />
             </motion.div>
@@ -300,37 +310,34 @@ export default function HolesShowcase() {
         </div>
       </section>
 
-      {/* ---- İstatistikler ---- */}
-      <section className="mx-auto max-w-5xl px-4 py-24 sm:py-32">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            { v: 50, s: "+", label: t("holes.stat1") },
-            { v: 500, s: "+", label: t("holes.stat2") },
-            { v: 5, s: "", label: t("holes.stat3") },
-            { v: 100, s: "%", label: t("holes.stat4") },
-          ].map((st) => (
-            <div
-              key={st.label}
-              className="shine rounded-3xl border border-border-c bg-bg-elev p-6 sm:p-8 text-center"
-            >
-              <div className="font-display font-bold text-4xl sm:text-5xl text-gradient">
-                <Counter to={st.v} suffix={st.s} />
+      {/* ---- İstatistikler (opsiyonel) ---- */}
+      {config.stats && (
+        <section className="mx-auto max-w-5xl px-4 py-24 sm:py-32">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {config.stats.map((st) => (
+              <div
+                key={st.labelKey}
+                className="shine rounded-3xl border border-border-c bg-bg-elev p-6 sm:p-8 text-center"
+              >
+                <div className="font-display font-bold text-4xl sm:text-5xl text-gradient">
+                  <Counter to={st.v} suffix={st.s} />
+                </div>
+                <div className="mt-2 text-fg-muted text-sm sm:text-base">
+                  {t(st.labelKey)}
+                </div>
               </div>
-              <div className="mt-2 text-fg-muted text-sm sm:text-base">
-                {st.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ---- Anahtar kelime bandı ---- */}
-      <div className="relative py-6 border-y border-border-c overflow-hidden -rotate-1">
+      <div className="relative py-6 border-y border-border-c overflow-hidden -rotate-1 my-10">
         <div className="marquee">
-          {[...KEYWORDS, ...KEYWORDS].map((k, i) => (
+          {[...config.keywords, ...config.keywords].map((k, i) => (
             <span
               key={i}
-              className="font-display text-2xl sm:text-3xl font-bold uppercase tracking-wide text-fg-muted/50"
+              className="font-display text-2xl sm:text-3xl font-bold uppercase tracking-wide text-fg-muted/50 whitespace-nowrap"
             >
               {k} <span className="text-accent">·</span>
             </span>
@@ -348,23 +355,41 @@ export default function HolesShowcase() {
           className="shine rounded-[2.5rem] border border-border-c bg-bg-elev p-10 sm:p-14"
         >
           <Image
-            src="/holes/icon.png"
-            alt="Holes icon"
+            src={config.icon}
+            alt={`${config.letters} icon`}
             width={88}
             height={88}
             className="mx-auto rounded-[1.4rem] shadow-xl shadow-accent/25 ring-1 ring-border-c"
           />
           <h3 className="mt-6 font-display font-bold text-2xl sm:text-4xl">
-            Holes: {t("holes.tagline")}
+            {config.letters}: {t(`${p}.tagline` as DictKey)}
           </h3>
-          <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2 text-accent font-semibold text-sm sm:text-base">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
-            </span>
-            {t("holes.status")}
-          </p>
-          <p className="mt-6 text-fg-muted text-xs">{t("holes.copyright")}</p>
+
+          {config.storeUrl ? (
+            <motion.a
+              href={config.storeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className="mt-6 inline-flex items-center gap-3 rounded-2xl bg-accent text-bg px-7 py-3.5 font-semibold text-sm sm:text-base shadow-xl shadow-accent/25"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8.98-.2 1.92-.9 3.05-.82 1.79.14 3.02.86 3.75 2.17-3.36 2.06-2.56 6.57.51 7.81-.62 1.42-1.4 2.82-2.39 3.01ZM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25Z" />
+              </svg>
+              {t(`${p}.download` as DictKey)}
+            </motion.a>
+          ) : (
+            <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2 text-accent font-semibold text-sm sm:text-base">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
+              </span>
+              {t(`${p}.status` as DictKey)}
+            </p>
+          )}
+
+          <p className="mt-6 text-fg-muted text-xs">{t("app.copyright")}</p>
         </motion.div>
       </section>
     </div>

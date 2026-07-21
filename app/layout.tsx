@@ -16,9 +16,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "yozapps — Yahya Özdemir Apps",
+  title: "Yozapps — Yahya Özdemir Apps",
   description:
-    "yozapps — Yahya Özdemir tarafından geliştirilen mobil uygulamalar. Holes: Tilt · Balance · Escape ve daha fazlası.",
+    "Yozapps — Yahya Can Özdemir tarafından geliştirilen mobil uygulamalar. Holes ve Safe Oto App Store'da.",
   icons: { icon: "/favicon.svg" },
 };
 

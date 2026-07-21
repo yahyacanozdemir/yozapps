@@ -28,7 +28,7 @@ export default function Nav() {
       <nav className="mx-auto max-w-6xl px-4 mt-3">
         <div className="flex items-center justify-between rounded-2xl border border-border-c bg-bg/70 backdrop-blur-xl px-4 py-2.5 shadow-lg shadow-black/5">
           <a href="#" className="font-display text-xl font-bold tracking-tight">
-            <span className="text-gradient">yoz</span>apps
+            <span className="text-gradient">Yoz</span>apps
           </a>
 
           <div className="hidden sm:flex items-center gap-6">

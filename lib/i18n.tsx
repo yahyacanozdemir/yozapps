@@ -51,9 +51,9 @@ const dict = {
     "teaser.soon.desc": "Yeni uygulamalarımız mutfakta. İpucu yok, sürpriz bol.",
     "teaser.soon.card": "Çok Yakında",
 
-    "gallery.title": "Mağazadan kareler",
+    "gallery.title": "App Store'dan kareler",
 
-    "holes.badge": "İlk Uygulamamız",
+    "holes.badge": "İlk Oyunumuz",
     "holes.tagline": "Tilt · Balance · Escape",
     "holes.headline1": "Eğ.",
     "holes.headline2": "Dengede tut.",
@@ -185,9 +185,9 @@ const dict = {
     "teaser.soon.desc": "New apps are in the kitchen. No hints — plenty of surprise.",
     "teaser.soon.card": "Coming Soon",
 
-    "gallery.title": "Scenes from the store",
+    "gallery.title": "Scenes from the App Store",
 
-    "holes.badge": "Our First App",
+    "holes.badge": "Our First Game",
     "holes.tagline": "Tilt · Balance · Escape",
     "holes.headline1": "Tilt.",
     "holes.headline2": "Balance.",

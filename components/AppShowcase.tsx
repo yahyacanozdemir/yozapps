@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLang, type DictKey } from "@/lib/i18n";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -53,56 +53,94 @@ export default function AppShowcase({ config }: { config: ShowcaseConfig }) {
   const { t } = useLang();
   const root = useRef<HTMLDivElement>(null);
   const p = config.prefix;
+  const [showHint, setShowHint] = useState(false);
+
+  // Giriş animasyonu bittikten sonra, kullanıcı kaydırana kadar yönlendirici ok
+  useEffect(() => {
+    const dismiss = () => {
+      setShowHint(false);
+      window.removeEventListener("wheel", dismiss);
+      window.removeEventListener("touchstart", dismiss);
+      window.removeEventListener("keydown", dismiss);
+      window.removeEventListener("scroll", onScroll);
+    };
+    const onScroll = () => {
+      if (window.scrollY > 40) dismiss();
+    };
+
+    window.addEventListener("wheel", dismiss, { passive: true });
+    window.addEventListener("touchstart", dismiss, { passive: true });
+    window.addEventListener("keydown", dismiss);
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // Giriş yaklaşık 2.4sn sürüyor; hemen ardından oku göster
+    const timer = setTimeout(() => {
+      if (window.scrollY <= 40) setShowHint(true);
+    }, 2600);
+
+    return () => {
+      clearTimeout(timer);
+      dismiss();
+    };
+  }, []);
 
   useEffect(() => {
     const rootEl = root.current;
     if (!rootEl) return;
 
     const ctx = gsap.context(() => {
-      // ---- 1) Pinlenen giriş: harfler açılır, telefon uçarak gelir ----
-      const introTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".app-intro",
-          start: "top top",
-          end: "+=180%",
-          scrub: 1,
-          pin: true,
-        },
-      });
+      // ---- 1a) Giriş: sayfa açılır açılmaz kendiliğinden oynayan yavaş açılış.
+      // Scroll'a bağlı değil; kullanıcı hiç kaydırmasa da ilk içerik süzülerek belirir.
+      gsap.set(".app-hero-phone", { rotate: 6 });
 
-      introTl
-        .fromTo(
-          ".app-letter",
-          { yPercent: 120, opacity: 0, rotate: 8 },
-          { yPercent: 0, opacity: 1, rotate: 0, stagger: 0.06, ease: "power3.out", duration: 0.5 }
-        )
-        .fromTo(
-          ".app-title",
-          { letterSpacing: "0.02em" },
-          { letterSpacing: "0.14em", ease: "none", duration: 1 },
-          0.4
-        )
-        .fromTo(
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
+        .from(".app-letter", {
+          yPercent: 120,
+          opacity: 0,
+          rotate: 8,
+          stagger: 0.075,
+          duration: 1,
+        })
+        .from(
           ".app-tagline",
-          { opacity: 0, y: 30, filter: "blur(8px)" },
-          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5 },
+          { opacity: 0, y: 30, filter: "blur(8px)", duration: 0.9 },
           0.5
         )
-        .fromTo(
+        .from(
           ".app-hero-phone",
-          { yPercent: 90, scale: 1.5, rotate: -10, opacity: 0 },
-          { yPercent: 0, scale: 1, rotate: 6, opacity: 1, ease: "power2.out", duration: 1 },
-          0.35
-        )
+          {
+            yPercent: 70,
+            scale: 1.4,
+            rotate: -10,
+            opacity: 0,
+            duration: 1.5,
+            ease: "power2.out",
+          },
+          0.3
+        );
+
+      // ---- 1b) Çıkış: bölüm pinlenir, kullanıcı kaydırdıkça başlık geri çekilir ----
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: ".app-intro",
+            start: "top top",
+            end: "+=140%",
+            scrub: 1,
+            pin: true,
+          },
+        })
+        .to(".app-title", { letterSpacing: "0.14em", ease: "none", duration: 1 }, 0)
         .to(
           ".app-title",
           { scale: 0.82, opacity: 0.15, ease: "power1.in", duration: 0.6 },
-          1.1
+          0.5
         )
         .to(
           ".app-hero-phone",
-          { yPercent: -18, scale: 1.06, rotate: 0, ease: "none", duration: 0.7 },
-          1.05
+          { yPercent: -18, scale: 1.06, rotate: 0, ease: "none", duration: 1 },
+          0.3
         );
 
       // ---- 2) Manifesto kelimeleri ----
@@ -202,7 +240,34 @@ export default function AppShowcase({ config }: { config: ShowcaseConfig }) {
   }));
 
   return (
-    <div ref={root} id={config.htmlId} className="relative">
+    <>
+      {/* Aşağı kaydırmayı öğreten uçan ok — GSAP pin-spacer DOM'una karışmasın diye kapsayıcının dışında */}
+      <AnimatePresence>
+        {showHint && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.8 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
+          >
+            <div className="relative grid place-items-center">
+              <span className="absolute h-14 w-14 rounded-full bg-accent/25 animate-ping" />
+              <motion.span
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 1.3, repeat: Infinity, ease: "easeInOut" }}
+                className="relative grid h-12 w-12 place-items-center rounded-full bg-accent text-bg shadow-xl shadow-accent/40"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 4v16m0 0-6-6m6 6 6-6" />
+                </svg>
+              </motion.span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div ref={root} id={config.htmlId} className="relative">
       {/* ---- Pinlenen giriş ---- */}
       <section className="app-intro relative h-svh overflow-hidden flex flex-col items-center justify-center">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--glow),transparent_65%)]" />
@@ -392,6 +457,7 @@ export default function AppShowcase({ config }: { config: ShowcaseConfig }) {
           <p className="mt-6 text-fg-muted text-xs">{t("app.copyright")}</p>
         </motion.div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

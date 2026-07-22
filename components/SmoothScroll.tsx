@@ -20,6 +20,8 @@ export default function SmoothScroll({
     });
 
     lenis.on("scroll", ScrollTrigger.update);
+    // Programatik scroll için global erişim (ör. detay sayfası otomatik girişi)
+    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
 
     const raf = (time: number) => {
       lenis.raf(time * 1000);
@@ -29,6 +31,7 @@ export default function SmoothScroll({
 
     return () => {
       gsap.ticker.remove(raf);
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
       lenis.destroy();
     };
   }, []);

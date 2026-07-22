@@ -20,6 +20,16 @@ const TECH_COLORS: Record<string, string> = {
   Android: "bg-green-500/15 text-green-600 border-green-500/30",
   Java: "bg-red-500/15 text-red-500 border-red-500/30",
   AI: "bg-purple-500/15 text-purple-500 border-purple-500/30",
+  AdMob: "bg-lime-500/15 text-lime-600 border-lime-500/30",
+  Firebase: "bg-amber-500/15 text-amber-600 border-amber-500/30",
+  Push: "bg-rose-500/15 text-rose-500 border-rose-500/30",
+  WebSocket: "bg-emerald-500/15 text-emerald-600 border-emerald-500/30",
+  AVFoundation: "bg-indigo-500/15 text-indigo-500 border-indigo-500/30",
+  "REST API": "bg-violet-500/15 text-violet-500 border-violet-500/30",
+  Material: "bg-fuchsia-500/15 text-fuchsia-500 border-fuchsia-500/30",
+  Validation: "bg-pink-500/15 text-pink-500 border-pink-500/30",
+  Game: "bg-rose-500/15 text-rose-500 border-rose-500/30",
+  Charts: "bg-yellow-500/15 text-yellow-600 border-yellow-500/30",
 };
 
 export default function ProjectsTimeline() {
